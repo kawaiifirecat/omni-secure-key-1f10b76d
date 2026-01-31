@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { FileKey, Send, Loader2, CheckCircle2, MessageSquare, Monitor, Apple, Terminal } from "lucide-react";
 
 interface LicenseRequestStepProps {
-  onComplete: () => void;
+  onComplete: (selectedOs: string) => void;
 }
 
 export const LicenseRequestStep = ({ onComplete }: LicenseRequestStepProps) => {
@@ -34,8 +34,15 @@ export const LicenseRequestStep = ({ onComplete }: LicenseRequestStepProps) => {
     // Simulated submission
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
+    // Store the selected OS for the configuration step
+    localStorage.setItem("omni-selected-os", formData.os);
+    
     setIsSubmitted(true);
     setIsSubmitting(false);
+  };
+
+  const handleContinue = () => {
+    onComplete(formData.os);
   };
 
   const getOsIcon = (os: string) => {
@@ -87,7 +94,7 @@ export const LicenseRequestStep = ({ onComplete }: LicenseRequestStepProps) => {
         </Card>
 
         <Button
-          onClick={onComplete}
+          onClick={handleContinue}
           className="w-full h-12 text-base font-medium gradient-primary text-primary-foreground hover:opacity-90 transition-opacity"
         >
           Continuer vers la configuration

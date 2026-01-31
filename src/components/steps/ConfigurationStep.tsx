@@ -18,8 +18,22 @@ import {
   Info
 } from "lucide-react";
 
-export const ConfigurationStep = () => {
+interface ConfigurationStepProps {
+  selectedOs: string;
+}
+
+export const ConfigurationStep = ({ selectedOs }: ConfigurationStepProps) => {
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
+  
+  // Map OS to tab value
+  const getTabValue = () => {
+    switch (selectedOs) {
+      case "windows": return "windows";
+      case "macos": return "macos";
+      case "linux": return "linux";
+      default: return "windows";
+    }
+  };
 
   const copyToClipboard = (text: string, item: string) => {
     navigator.clipboard.writeText(text);
@@ -68,26 +82,43 @@ export const ConfigurationStep = () => {
       className="w-full max-w-4xl mx-auto"
     >
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl gradient-primary mb-4 shadow-elevated">
+        <motion.div 
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="inline-flex items-center justify-center h-16 w-16 rounded-2xl gradient-primary mb-4 shadow-elevated"
+        >
           <Settings className="h-8 w-8 text-primary-foreground" />
-        </div>
-        <h1 className="text-3xl font-bold text-foreground mb-2">Configuration d'Omni</h1>
-        <p className="text-muted-foreground max-w-lg mx-auto">
-          Suivez les instructions ci-dessous pour configurer Omni sur votre système
-        </p>
+        </motion.div>
+        <motion.h1 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="text-3xl font-bold text-foreground mb-2"
+        >
+          Configuration d'Omni
+        </motion.h1>
+        <motion.p 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+          className="text-muted-foreground max-w-lg mx-auto"
+        >
+          Instructions de configuration pour {selectedOs === "windows" ? "Windows" : selectedOs === "macos" ? "macOS" : "Linux"}
+        </motion.p>
       </div>
 
-      <Tabs defaultValue="windows" className="w-full">
+      <Tabs value={getTabValue()} className="w-full">
         <TabsList className="grid w-full grid-cols-3 mb-6 h-14">
-          <TabsTrigger value="windows" className="flex items-center gap-2 text-base">
+          <TabsTrigger value="windows" className="flex items-center gap-2 text-base" disabled={selectedOs !== "windows"}>
             <Monitor className="h-4 w-4" />
             Windows
           </TabsTrigger>
-          <TabsTrigger value="macos" className="flex items-center gap-2 text-base">
+          <TabsTrigger value="macos" className="flex items-center gap-2 text-base" disabled={selectedOs !== "macos"}>
             <Apple className="h-4 w-4" />
             macOS
           </TabsTrigger>
-          <TabsTrigger value="linux" className="flex items-center gap-2 text-base">
+          <TabsTrigger value="linux" className="flex items-center gap-2 text-base" disabled={selectedOs !== "linux"}>
             <Terminal className="h-4 w-4" />
             Linux
           </TabsTrigger>
