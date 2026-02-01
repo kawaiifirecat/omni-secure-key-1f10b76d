@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import { 
   Settings, 
   Monitor, 
@@ -15,14 +16,17 @@ import {
   CheckCircle2,
   Copy,
   Check,
-  Info
+  Info,
+  ArrowLeft,
+  Home
 } from "lucide-react";
 
 interface ConfigurationStepProps {
   selectedOs: string;
+  onBackToMenu?: () => void;
 }
 
-export const ConfigurationStep = ({ selectedOs }: ConfigurationStepProps) => {
+export const ConfigurationStep = ({ selectedOs, onBackToMenu }: ConfigurationStepProps) => {
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
   
   // Map OS to tab value
@@ -305,12 +309,35 @@ export const ConfigurationStep = ({ selectedOs }: ConfigurationStepProps) => {
         </TabsContent>
       </Tabs>
 
+      {onBackToMenu && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-8"
+        >
+          <Button
+            onClick={onBackToMenu}
+            variant="outline"
+            className="w-full h-12 text-base font-medium border-primary/30 hover:bg-primary/5 transition-all group"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+            Retour au menu principal
+            <Home className="h-4 w-4 ml-2" />
+          </Button>
+        </motion.div>
+      )}
+
       <Card className="mt-8 shadow-card border-border bg-accent/30">
         <CardContent className="p-6">
           <div className="flex items-start gap-4">
-            <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <motion.div 
+              className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0"
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
               <CheckCircle2 className="h-6 w-6 text-primary" />
-            </div>
+            </motion.div>
             <div>
               <h3 className="font-semibold text-foreground mb-2">Configuration terminée</h3>
               <p className="text-sm text-muted-foreground mb-4">
@@ -318,18 +345,24 @@ export const ConfigurationStep = ({ selectedOs }: ConfigurationStepProps) => {
                 En cas de problème, contactez le support via le bot Telegram <span className="font-mono text-primary">@OmniBot</span>.
               </p>
               <div className="flex flex-wrap gap-2">
-                <Badge variant="secondary" className="flex items-center gap-1">
-                  <FolderOpen className="h-3 w-3" />
-                  Dossier configuré
-                </Badge>
-                <Badge variant="secondary" className="flex items-center gap-1">
-                  <FileKey className="h-3 w-3" />
-                  Licence ajoutée
-                </Badge>
-                <Badge variant="secondary" className="flex items-center gap-1">
-                  <Globe className="h-3 w-3" />
-                  Proxy configuré
-                </Badge>
+                <motion.div whileHover={{ scale: 1.05 }}>
+                  <Badge variant="secondary" className="flex items-center gap-1">
+                    <FolderOpen className="h-3 w-3" />
+                    Dossier configuré
+                  </Badge>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }}>
+                  <Badge variant="secondary" className="flex items-center gap-1">
+                    <FileKey className="h-3 w-3" />
+                    Licence ajoutée
+                  </Badge>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }}>
+                  <Badge variant="secondary" className="flex items-center gap-1">
+                    <Globe className="h-3 w-3" />
+                    Proxy configuré
+                  </Badge>
+                </motion.div>
               </div>
             </div>
           </div>
