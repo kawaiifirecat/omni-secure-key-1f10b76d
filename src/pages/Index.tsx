@@ -7,6 +7,7 @@ import { TermsStep } from "@/components/steps/TermsStep";
 import { AuthStep } from "@/components/steps/AuthStep";
 import { LicenseRequestStep } from "@/components/steps/LicenseRequestStep";
 import { ConfigurationStep } from "@/components/steps/ConfigurationStep";
+import { AnimatedBackground } from "@/components/AnimatedBackground";
 
 const STEPS = [
   { id: 1, title: "Conditions", description: "Accepter les CGU" },
@@ -167,17 +168,21 @@ const Index = () => {
     <AnimatePresence mode="wait">
       <motion.div 
         key="main"
-        className="min-h-screen bg-background gradient-hero"
+        className="min-h-screen bg-background relative overflow-hidden"
         variants={containerVariants}
         initial="hidden"
         animate={isLoaded ? "visible" : "hidden"}
         exit={{ opacity: 0 }}
       >
-        <motion.div variants={itemVariants}>
-          <Header onLogoClick={handleBackToLanding} />
-        </motion.div>
+        {/* Global Animated Background */}
+        <AnimatedBackground intensity="medium" />
         
-        <main className="container mx-auto px-4 py-8">
+        <div className="relative z-10">
+          <motion.div variants={itemVariants}>
+            <Header onLogoClick={handleBackToLanding} />
+          </motion.div>
+        
+          <main className="container mx-auto px-4 py-8">
           {!directConfigAccess && (
             <motion.div variants={itemVariants} className="max-w-4xl mx-auto mb-8">
               <StepProgress
@@ -199,28 +204,29 @@ const Index = () => {
             >
               {renderCurrentStep()}
             </motion.div>
-          </AnimatePresence>
-        </main>
+            </AnimatePresence>
+          </main>
 
-        <motion.footer 
-          variants={itemVariants}
-          className="border-t border-border bg-card/50 backdrop-blur-sm"
-        >
-          <div className="container mx-auto px-4 py-6">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <span>© 2024 Omni.</span>
-                <span className="hidden md:inline">Tous droits réservés.</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
-                  Systèmes supportés : Windows, macOS, Linux
-                </span>
+          <motion.footer 
+            variants={itemVariants}
+            className="border-t border-border/50 bg-card/30 backdrop-blur-md"
+          >
+            <div className="container mx-auto px-4 py-6">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <span>© 2024 Omni.</span>
+                  <span className="hidden md:inline">Tous droits réservés.</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
+                    Systèmes supportés : Windows, macOS, Linux
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        </motion.footer>
+          </motion.footer>
+        </div>
       </motion.div>
     </AnimatePresence>
   );
