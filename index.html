@@ -17,14 +17,22 @@
     
     <script>
       (function() {
-        var stored = localStorage.getItem("omni-theme");
-        var mode = stored || "dark";
+        // Thème automatique basé sur les préférences système uniquement
         var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        if (mode === "dark" || (mode === "system" && prefersDark)) {
+        if (prefersDark) {
           document.documentElement.classList.add("dark");
-        } else if (mode === "light") {
+        } else {
           document.documentElement.classList.remove("dark");
         }
+        
+        // Écouter les changements de préférence système en temps réel
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
+          if (e.matches) {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
+        });
       })();
     </script>
   </head>
