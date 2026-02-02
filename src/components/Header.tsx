@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { ThemeToggle } from "./ThemeToggle";
 import { Shield, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -9,7 +8,7 @@ interface HeaderProps {
 
 export const Header = ({ onLogoClick }: HeaderProps) => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <motion.button 
           onClick={onLogoClick}
@@ -18,7 +17,7 @@ export const Header = ({ onLogoClick }: HeaderProps) => {
           whileTap={{ scale: 0.98 }}
         >
           <motion.div 
-            className="flex h-10 w-10 items-center justify-center rounded-xl gradient-primary shadow-card"
+            className="flex h-10 w-10 items-center justify-center rounded-xl gradient-primary shadow-glow"
             whileHover={{ rotate: [0, -5, 5, 0] }}
             transition={{ duration: 0.4 }}
           >
@@ -41,20 +40,19 @@ export const Header = ({ onLogoClick }: HeaderProps) => {
                 variant="ghost"
                 size="sm"
                 onClick={onLogoClick}
-                className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+                className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
               >
                 <Home className="h-4 w-4" />
                 <span className="hidden sm:inline">Accueil</span>
               </Button>
             </motion.div>
           )}
-          <div className="hidden md:flex items-center gap-2 text-sm text-muted-foreground">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
               <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
-              <span className="text-accent-foreground font-medium">En ligne</span>
+              <span className="text-primary font-medium">En ligne</span>
             </div>
           </div>
-          <ThemeToggle />
         </div>
       </div>
     </header>
