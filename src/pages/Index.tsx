@@ -1,13 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/Header";
 import { StepProgress } from "@/components/StepProgress";
 import { LandingPage } from "@/components/LandingPage";
-import { TermsStep } from "@/components/steps/TermsStep";
-import { AuthStep } from "@/components/steps/AuthStep";
-import { LicenseRequestStep } from "@/components/steps/LicenseRequestStep";
-import { ConfigurationStep } from "@/components/steps/ConfigurationStep";
-import { AnimatedBackground } from "@/components/AnimatedBackground";
+
+// Lazy load des étapes pour optimiser les performances
+const TermsStep = lazy(() => import("@/components/steps/TermsStep").then(m => ({ default: m.TermsStep })));
+const AuthStep = lazy(() => import("@/components/steps/AuthStep").then(m => ({ default: m.AuthStep })));
+const LicenseRequestStep = lazy(() => import("@/components/steps/LicenseRequestStep").then(m => ({ default: m.LicenseRequestStep })));
+const ConfigurationStep = lazy(() => import("@/components/steps/ConfigurationStep").then(m => ({ default: m.ConfigurationStep })));
+
+// Lazy load du fond animé - ne charge que quand visible
+const AnimatedBackground = lazy(() => import("@/components/AnimatedBackground").then(m => ({ default: m.AnimatedBackground })));
 
 const STEPS = [
   { id: 1, title: "Conditions", description: "Accepter les CGU" },
@@ -87,18 +91,30 @@ const Index = () => {
   };
 
   const renderCurrentStep = () => {
-    switch (currentStep) {
-      case 1:
-        return <TermsStep onComplete={() => handleStepComplete(1)} />;
-      case 2:
-        return <AuthStep onComplete={() => handleStepComplete(2)} />;
-      case 3:
-        return <LicenseRequestStep onComplete={(os) => handleStepComplete(3, os)} />;
-      case 4:
-        return <ConfigurationStep selectedOs={selectedOs} onBackToMenu={directConfigAccess ? handleBackToLanding : undefined} />;
-      default:
-        return <TermsStep onComplete={() => handleStepComplete(1)} />;
-    }
+    const stepComponent = (() => {
+      switch (currentStep) {
+        case 1:
+          return <TermsStep onComplete={() => handleStepComplete(1)} />;
+        case 2:
+          return <AuthStep onComplete={() => handleStepComplete(2)} />;
+        case 3:
+          return <LicenseRequestStep onComplete={(os) => handleStepComplete(3, os)} />;
+        case 4:
+          return <ConfigurationStep selectedOs={selectedOs} onBackToMenu={directConfigAccess ? handleBackToLanding : undefined} />;
+        default:
+          return <TermsStep onComplete={() => handleStepComplete(1)} />;
+      }
+    })();
+
+    return (
+      <Suspense fallback={
+        <div className="flex items-center justify-center py-20">
+          <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      }>
+        {stepComponent}
+      </Suspense>
+    );
   };
 
   // Animation variants for page entrance
@@ -174,8 +190,10 @@ const Index = () => {
         animate={isLoaded ? "visible" : "hidden"}
         exit={{ opacity: 0 }}
       >
-        {/* Global Animated Background */}
-        <AnimatedBackground intensity="medium" />
+        {/* Global Animated Background - Lazy loaded */}
+        <Suspense fallback={null}>
+          <AnimatedBackground intensity="medium" />
+        </Suspense>
         
         <div className="relative z-10">
           <motion.div variants={itemVariants}>
