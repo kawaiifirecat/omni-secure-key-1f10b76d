@@ -6,11 +6,116 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { FileKey, Send, Loader2, CheckCircle2, MessageSquare, Monitor, Apple, Terminal, ArrowRight, Sparkles } from "lucide-react";
+import { FileKey, Send, CheckCircle2, MessageSquare, Monitor, Apple, Terminal, ArrowRight, Sparkles, FileText, Mail } from "lucide-react";
 
 interface LicenseRequestStepProps {
   onComplete: (selectedOs: string) => void;
 }
+
+// Animation d'envoi de formulaire
+const SendingAnimation = () => {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="relative flex flex-col items-center"
+      >
+        {/* Document qui s'écrit */}
+        <motion.div
+          className="relative bg-card border border-border rounded-lg p-6 shadow-elevated w-64"
+          initial={{ y: 0 }}
+          animate={{ y: [0, -20, 0] }}
+          transition={{ duration: 0.8, times: [0, 0.5, 1] }}
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <FileText className="h-5 w-5 text-primary" />
+            <span className="font-semibold text-sm">Demande de licence</span>
+          </div>
+          
+          {/* Lignes de texte qui s'écrivent */}
+          {[0, 1, 2, 3].map((i) => (
+            <motion.div
+              key={i}
+              className="h-2 bg-muted rounded mb-2"
+              initial={{ width: 0 }}
+              animate={{ width: `${60 + Math.random() * 30}%` }}
+              transition={{ duration: 0.4, delay: i * 0.15 }}
+            />
+          ))}
+          
+          {/* Signature/Validation */}
+          <motion.div
+            className="flex items-center gap-2 mt-4 pt-3 border-t border-border"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+          >
+            <CheckCircle2 className="h-4 w-4 text-success" />
+            <span className="text-xs text-success font-medium">Validé</span>
+          </motion.div>
+        </motion.div>
+
+        {/* Enveloppe qui arrive et récupère le document */}
+        <motion.div
+          className="absolute"
+          initial={{ x: 100, y: 50, opacity: 0, rotate: 10 }}
+          animate={{ 
+            x: [100, 0, 0, -200],
+            y: [50, 0, 0, -100],
+            opacity: [0, 1, 1, 0],
+            rotate: [10, 0, 0, -10],
+            scale: [0.8, 1, 1, 0.6]
+          }}
+          transition={{ 
+            duration: 2.5, 
+            delay: 1,
+            times: [0, 0.3, 0.7, 1],
+            ease: "easeInOut"
+          }}
+        >
+          <div className="bg-primary/10 border-2 border-primary rounded-lg p-4 shadow-glow">
+            <Mail className="h-8 w-8 text-primary" />
+          </div>
+        </motion.div>
+
+        {/* Texte de chargement */}
+        <motion.p
+          className="mt-8 text-muted-foreground font-medium"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          <motion.span
+            animate={{ opacity: [1, 0.5, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >
+            Envoi de votre demande...
+          </motion.span>
+        </motion.p>
+
+        {/* Points de progression */}
+        <div className="flex gap-2 mt-4">
+          {[0, 1, 2].map((i) => (
+            <motion.div
+              key={i}
+              className="h-2 w-2 rounded-full bg-primary"
+              animate={{ 
+                scale: [1, 1.5, 1],
+                opacity: [0.5, 1, 0.5]
+              }}
+              transition={{ 
+                duration: 0.8, 
+                repeat: Infinity,
+                delay: i * 0.2
+              }}
+            />
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  );
+};
 
 export const LicenseRequestStep = ({ onComplete }: LicenseRequestStepProps) => {
   const [formData, setFormData] = useState({
@@ -21,6 +126,7 @@ export const LicenseRequestStep = ({ onComplete }: LicenseRequestStepProps) => {
     duration: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSendingAnimation, setShowSendingAnimation] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const isFormValid = formData.firstName && formData.lastName && formData.reason && formData.os && formData.duration;
@@ -30,13 +136,14 @@ export const LicenseRequestStep = ({ onComplete }: LicenseRequestStepProps) => {
     if (!isFormValid) return;
 
     setIsSubmitting(true);
+    setShowSendingAnimation(true);
 
-    // Simulated submission
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // Animation d'envoi
+    await new Promise((resolve) => setTimeout(resolve, 3500));
 
-    // Store the selected OS for the configuration step
     localStorage.setItem("omni-selected-os", formData.os);
     
+    setShowSendingAnimation(false);
     setIsSubmitted(true);
     setIsSubmitting(false);
   };
@@ -45,29 +152,16 @@ export const LicenseRequestStep = ({ onComplete }: LicenseRequestStepProps) => {
     onComplete(formData.os);
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut" as const,
-      },
+      transition: { duration: 0.5, ease: "easeOut" as const },
     },
   };
 
+  // Écran de succès
   if (isSubmitted) {
     return (
       <motion.div
@@ -82,297 +176,184 @@ export const LicenseRequestStep = ({ onComplete }: LicenseRequestStepProps) => {
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
         >
-          <motion.div
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 1, repeat: 2 }}
-          >
-            <CheckCircle2 className="h-10 w-10 text-success" />
-          </motion.div>
+          <CheckCircle2 className="h-10 w-10 text-success" />
         </motion.div>
         
-        <motion.h1 
-          className="text-3xl font-bold text-foreground mb-3"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          Demande envoyée !
-        </motion.h1>
-        
-        <motion.p 
-          className="text-muted-foreground mb-8 max-w-md mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
+        <h1 className="text-3xl font-bold text-foreground mb-3">Demande envoyée !</h1>
+        <p className="text-muted-foreground mb-8 max-w-md mx-auto">
           Votre demande de licence a été transmise à l'administrateur pour validation.
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <Card className="shadow-card border-border mb-6 overflow-hidden">
-            <CardContent className="p-6">
-              <div className="flex gap-4">
-                <motion.div 
-                  className="flex-shrink-0"
-                  animate={{ 
-                    rotate: [0, 10, -10, 0],
-                    y: [0, -3, 0]
-                  }}
-                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                >
-                  <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <MessageSquare className="h-6 w-6 text-primary" />
-                  </div>
-                </motion.div>
-                <div className="text-left">
-                  <h3 className="font-semibold text-foreground mb-1">Réponse via Telegram</h3>
-                  <p className="text-sm text-muted-foreground">
-                    La réponse à votre demande sera envoyée sur Telegram par le bot Omni. 
-                    Ce bot vous fournira toutes les informations nécessaires concernant votre licence.
-                  </p>
-                </div>
+        <Card className="shadow-card border-border mb-6 overflow-hidden">
+          <CardContent className="p-6">
+            <div className="flex gap-4">
+              <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <MessageSquare className="h-6 w-6 text-primary" />
               </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+              <div className="text-left">
+                <h3 className="font-semibold text-foreground mb-1">Réponse via Telegram</h3>
+                <p className="text-sm text-muted-foreground">
+                  La réponse à votre demande sera envoyée sur Telegram par le bot Omni.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+        <Button
+          onClick={handleContinue}
+          className="w-full h-12 text-base font-medium gradient-primary text-primary-foreground hover:opacity-90 transition-all"
         >
-          <Button
-            onClick={handleContinue}
-            className="w-full h-12 text-base font-medium gradient-primary text-primary-foreground hover:opacity-90 transition-all relative overflow-hidden group"
-          >
-            <motion.span
-              className="absolute inset-0 bg-white/20"
-              initial={{ x: "-100%" }}
-              animate={{ x: "200%" }}
-              transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 0.5 }}
-            />
-            <span className="relative flex items-center justify-center gap-2">
-              <Sparkles className="h-4 w-4" />
-              Continuer vers la configuration
-              <motion.div
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1, repeat: Infinity }}
-              >
-                <ArrowRight className="h-4 w-4" />
-              </motion.div>
-            </span>
-          </Button>
-        </motion.div>
+          <span className="flex items-center justify-center gap-2">
+            <Sparkles className="h-4 w-4" />
+            Continuer vers la configuration
+            <ArrowRight className="h-4 w-4" />
+          </span>
+        </Button>
       </motion.div>
     );
   }
 
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className="w-full max-w-2xl mx-auto"
-    >
-      <motion.div variants={itemVariants} className="text-center mb-8">
-        <motion.div 
-          className="inline-flex items-center justify-center h-16 w-16 rounded-2xl gradient-primary mb-4 shadow-elevated"
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ 
-            type: "spring", 
-            stiffness: 200, 
-            damping: 15,
-            delay: 0.3 
-          }}
-        >
-          <FileKey className="h-8 w-8 text-primary-foreground" />
+    <>
+      {/* Animation d'envoi plein écran */}
+      <AnimatePresence>
+        {showSendingAnimation && <SendingAnimation />}
+      </AnimatePresence>
+
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
+        className="w-full max-w-2xl mx-auto"
+      >
+        <motion.div variants={itemVariants} className="text-center mb-8">
+          <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl gradient-primary mb-4 shadow-elevated">
+            <FileKey className="h-8 w-8 text-primary-foreground" />
+          </div>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Demande de licence</h1>
+          <p className="text-muted-foreground max-w-md mx-auto">
+            Remplissez le formulaire ci-dessous pour demander votre licence Omni
+          </p>
         </motion.div>
-        <motion.h1 
-          className="text-3xl font-bold text-foreground mb-2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          Demande de licence
-        </motion.h1>
-        <motion.p 
-          className="text-muted-foreground max-w-md mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          Remplissez le formulaire ci-dessous pour demander votre licence Omni
-        </motion.p>
-      </motion.div>
 
-      <motion.div variants={itemVariants}>
-        <Card className="shadow-card border-border overflow-hidden">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-primary" />
-              Informations de la demande
-            </CardTitle>
-            <CardDescription>
-              Toutes les informations sont obligatoires pour traiter votre demande
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <motion.div 
-                className="grid grid-cols-1 md:grid-cols-2 gap-4"
-                variants={itemVariants}
-              >
-                <motion.div 
-                  className="space-y-2"
-                  whileHover={{ scale: 1.01 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
-                  <Label htmlFor="firstName">Prénom</Label>
-                  <Input
-                    id="firstName"
-                    placeholder="Votre prénom"
-                    value={formData.firstName}
-                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+        <motion.div variants={itemVariants}>
+          <Card className="shadow-card border-border overflow-hidden">
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-primary" />
+                Informations de la demande
+              </CardTitle>
+              <CardDescription>
+                Toutes les informations sont obligatoires pour traiter votre demande
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">Prénom</Label>
+                    <Input
+                      id="firstName"
+                      placeholder="Votre prénom"
+                      value={formData.firstName}
+                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">Nom</Label>
+                    <Input
+                      id="lastName"
+                      placeholder="Votre nom"
+                      value={formData.lastName}
+                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="os">Système d'exploitation</Label>
+                  <Select
+                    value={formData.os}
+                    onValueChange={(value) => setFormData({ ...formData, os: value })}
                     disabled={isSubmitting}
-                    className="transition-all duration-300 focus:scale-[1.02]"
-                  />
-                </motion.div>
-                <motion.div 
-                  className="space-y-2"
-                  whileHover={{ scale: 1.01 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
-                  <Label htmlFor="lastName">Nom</Label>
-                  <Input
-                    id="lastName"
-                    placeholder="Votre nom"
-                    value={formData.lastName}
-                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  >
+                    <SelectTrigger id="os" className="h-11">
+                      <SelectValue placeholder="Sélectionnez votre OS" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="windows">
+                        <div className="flex items-center gap-2">
+                          <Monitor className="h-4 w-4" />
+                          Windows
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="macos">
+                        <div className="flex items-center gap-2">
+                          <Apple className="h-4 w-4" />
+                          macOS
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="linux">
+                        <div className="flex items-center gap-2">
+                          <Terminal className="h-4 w-4" />
+                          Linux
+                        </div>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="duration">Durée souhaitée</Label>
+                  <Select
+                    value={formData.duration}
+                    onValueChange={(value) => setFormData({ ...formData, duration: value })}
                     disabled={isSubmitting}
-                    className="transition-all duration-300 focus:scale-[1.02]"
+                  >
+                    <SelectTrigger id="duration" className="h-11">
+                      <SelectValue placeholder="Sélectionnez une durée" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="7">7 jours</SelectItem>
+                      <SelectItem value="14">14 jours</SelectItem>
+                      <SelectItem value="30">30 jours</SelectItem>
+                      <SelectItem value="60">60 jours</SelectItem>
+                      <SelectItem value="90">90 jours</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="reason">Motif de la demande</Label>
+                  <Textarea
+                    id="reason"
+                    placeholder="Décrivez brièvement pourquoi vous avez besoin de cette licence..."
+                    value={formData.reason}
+                    onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
+                    disabled={isSubmitting}
+                    rows={4}
+                    className="resize-none"
                   />
-                </motion.div>
-              </motion.div>
+                </div>
 
-              <motion.div 
-                className="space-y-2"
-                variants={itemVariants}
-              >
-                <Label htmlFor="os">Système d'exploitation</Label>
-                <Select
-                  value={formData.os}
-                  onValueChange={(value) => setFormData({ ...formData, os: value })}
-                  disabled={isSubmitting}
-                >
-                  <SelectTrigger id="os" className="h-11 transition-all duration-300 hover:border-primary/50">
-                    <SelectValue placeholder="Sélectionnez votre OS" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="windows">
-                      <div className="flex items-center gap-2">
-                        <Monitor className="h-4 w-4" />
-                        Windows
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="macos">
-                      <div className="flex items-center gap-2">
-                        <Apple className="h-4 w-4" />
-                        macOS
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="linux">
-                      <div className="flex items-center gap-2">
-                        <Terminal className="h-4 w-4" />
-                        Linux
-                      </div>
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </motion.div>
-
-              <motion.div 
-                className="space-y-2"
-                variants={itemVariants}
-              >
-                <Label htmlFor="duration">Durée souhaitée</Label>
-                <Select
-                  value={formData.duration}
-                  onValueChange={(value) => setFormData({ ...formData, duration: value })}
-                  disabled={isSubmitting}
-                >
-                  <SelectTrigger id="duration" className="h-11 transition-all duration-300 hover:border-primary/50">
-                    <SelectValue placeholder="Sélectionnez une durée" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="7">7 jours</SelectItem>
-                    <SelectItem value="14">14 jours</SelectItem>
-                    <SelectItem value="30">30 jours</SelectItem>
-                    <SelectItem value="60">60 jours</SelectItem>
-                    <SelectItem value="90">90 jours</SelectItem>
-                  </SelectContent>
-                </Select>
-              </motion.div>
-
-              <motion.div 
-                className="space-y-2"
-                variants={itemVariants}
-              >
-                <Label htmlFor="reason">Motif de la demande</Label>
-                <Textarea
-                  id="reason"
-                  placeholder="Décrivez brièvement pourquoi vous avez besoin de cette licence..."
-                  value={formData.reason}
-                  onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
-                  disabled={isSubmitting}
-                  rows={4}
-                  className="resize-none transition-all duration-300 focus:scale-[1.01]"
-                />
-              </motion.div>
-
-              <motion.div
-                variants={itemVariants}
-                whileHover={isFormValid && !isSubmitting ? { scale: 1.02 } : {}}
-                whileTap={isFormValid && !isSubmitting ? { scale: 0.98 } : {}}
-              >
                 <Button
                   type="submit"
                   disabled={!isFormValid || isSubmitting}
-                  className="w-full h-12 text-base font-medium gradient-primary text-primary-foreground hover:opacity-90 transition-all relative overflow-hidden"
+                  className="w-full h-12 text-base font-medium gradient-primary text-primary-foreground hover:opacity-90 transition-all"
                 >
-                  {isFormValid && !isSubmitting && (
-                    <motion.span
-                      className="absolute inset-0 bg-white/20"
-                      initial={{ x: "-100%" }}
-                      animate={{ x: "200%" }}
-                      transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 0.5 }}
-                    />
-                  )}
-                  <span className="relative flex items-center justify-center">
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                        Envoi en cours...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="h-5 w-5 mr-2" />
-                        Envoyer la demande
-                      </>
-                    )}
+                  <span className="flex items-center justify-center">
+                    <Send className="h-5 w-5 mr-2" />
+                    Envoyer la demande
                   </span>
                 </Button>
-              </motion.div>
-            </form>
-          </CardContent>
-        </Card>
+              </form>
+            </CardContent>
+          </Card>
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </>
   );
 };
