@@ -168,7 +168,7 @@ export const LicenseRequestStep = ({ onComplete }: LicenseRequestStepProps) => {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, type: "spring" }}
-        className="w-full max-w-lg mx-auto text-center"
+        className="w-full max-w-lg mx-auto text-center px-4 sm:px-0"
       >
         <motion.div 
           className="inline-flex items-center justify-center h-20 w-20 rounded-full bg-success/10 mb-6"
@@ -225,7 +225,7 @@ export const LicenseRequestStep = ({ onComplete }: LicenseRequestStepProps) => {
         initial="hidden"
         animate="visible"
         variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
-        className="w-full max-w-2xl mx-auto"
+        className="w-full max-w-2xl mx-auto px-4 sm:px-0"
       >
         <motion.div variants={itemVariants} className="text-center mb-8">
           <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl gradient-primary mb-4 shadow-elevated">

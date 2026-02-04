@@ -68,7 +68,7 @@ export const AuthStep = ({ onComplete }: AuthStepProps) => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="w-full max-w-lg mx-auto"
+      className="w-full max-w-lg mx-auto px-4 sm:px-0"
     >
       <motion.div variants={itemVariants} className="text-center mb-8">
         <motion.div 

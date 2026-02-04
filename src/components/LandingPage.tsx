@@ -74,9 +74,9 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
       <AnimatedBackground intensity="high" />
 
       {/* Main Content */}
-      <div className="relative z-10 container mx-auto px-4 py-12 min-h-screen flex flex-col justify-center">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 min-h-screen flex flex-col items-center justify-center">
         {/* Hero Section */}
-        <motion.div variants={itemVariants} className="text-center mb-16">
+        <motion.div variants={itemVariants} className="text-center mb-12 sm:mb-16 w-full max-w-4xl">
           <motion.div
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8"
             whileHover={{ scale: 1.05 }}
@@ -120,7 +120,7 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
         {/* Features */}
         <motion.div
           variants={itemVariants}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 max-w-4xl mx-auto"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-16 w-full max-w-4xl"
         >
           {features.map((feature, index) => (
             <motion.div
@@ -167,7 +167,7 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
         </motion.div>
 
         {/* CTA Button */}
-        <motion.div variants={itemVariants} className="text-center mb-16">
+        <motion.div variants={itemVariants} className="text-center mb-12 sm:mb-16 w-full flex justify-center">
           <motion.div
             animate={{
               boxShadow: [
@@ -208,13 +208,13 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
         </motion.div>
 
         {/* Quick Access - OS Cards */}
-        <motion.div variants={itemVariants}>
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-semibold text-foreground mb-2">Accès rapide à la configuration</h2>
-            <p className="text-muted-foreground">Consultez directement les instructions pour votre système</p>
+        <motion.div variants={itemVariants} className="w-full max-w-3xl">
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-2xl font-semibold text-foreground mb-2">Accès rapide à la configuration</h2>
+            <p className="text-sm sm:text-base text-muted-foreground">Consultez directement les instructions pour votre système</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {[
               { id: "windows", icon: Monitor, label: "Windows", color: "from-blue-500/20 to-blue-600/10" },
               { id: "macos", icon: Apple, label: "macOS", color: "from-gray-400/20 to-gray-500/10" },
@@ -256,7 +256,7 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
         {/* Footer Info */}
         <motion.div
           variants={itemVariants}
-          className="mt-16 text-center"
+          className="mt-12 sm:mt-16 text-center w-full"
         >
           <div className="inline-flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
