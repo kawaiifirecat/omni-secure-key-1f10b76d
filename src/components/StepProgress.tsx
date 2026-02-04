@@ -15,8 +15,8 @@ interface StepProgressProps {
 
 export const StepProgress = ({ steps, currentStep, completedSteps }: StepProgressProps) => {
   return (
-    <div className="w-full py-6">
-      <div className="flex items-center justify-between">
+    <div className="w-full py-6 px-4 sm:px-0">
+      <div className="flex items-center justify-center gap-2 sm:gap-0 sm:justify-between max-w-3xl mx-auto">
         {steps.map((step, index) => {
           const isCompleted = completedSteps.includes(step.id);
           const isCurrent = currentStep === step.id;
