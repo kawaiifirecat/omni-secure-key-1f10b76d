@@ -52,7 +52,7 @@ export const TermsStep = ({ onComplete }: TermsStepProps) => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="w-full max-w-4xl mx-auto"
+      className="w-full max-w-4xl mx-auto px-4 sm:px-0"
     >
       <motion.div variants={itemVariants} className="text-center mb-8">
         <motion.div 

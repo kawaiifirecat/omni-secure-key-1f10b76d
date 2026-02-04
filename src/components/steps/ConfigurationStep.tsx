@@ -155,7 +155,7 @@ export const ConfigurationStep = ({ selectedOs, onBackToMenu }: ConfigurationSte
           <p className="mb-4">
             Une fois installé, Omni fonctionne de manière totalement <strong>transparente et discrète</strong>. Vous n'avez rien à faire !
           </p>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
             <FeatureCard 
               icon={RefreshCw} 
               title="Vérification au démarrage" 
@@ -219,9 +219,9 @@ export const ConfigurationStep = ({ selectedOs, onBackToMenu }: ConfigurationSte
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="w-full max-w-4xl mx-auto"
+      className="w-full max-w-4xl mx-auto px-4 sm:px-0"
     >
-      <div className="text-center mb-8">
+      <div className="text-center mb-6 sm:mb-8">
         <motion.div 
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}

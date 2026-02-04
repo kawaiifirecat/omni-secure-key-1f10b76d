@@ -28,22 +28,21 @@ const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [directConfigAccess, setDirectConfigAccess] = useState(false);
 
-  // Load progress from localStorage
+  // Reset all progress on page load/refresh - start fresh every time
   useEffect(() => {
-    const savedShowLanding = localStorage.getItem("omni-show-landing");
-    const savedStep = localStorage.getItem("omni-current-step");
-    const savedCompleted = localStorage.getItem("omni-completed-steps");
-    const savedOs = localStorage.getItem("omni-selected-os");
+    // Clear all saved progress
+    localStorage.removeItem("omni-current-step");
+    localStorage.removeItem("omni-completed-steps");
+    localStorage.removeItem("omni-show-landing");
     
-    // Always show landing on page load/refresh
+    // Reset to initial state
     setShowLanding(true);
+    setCurrentStep(1);
+    setCompletedSteps([]);
+    setDirectConfigAccess(false);
     
-    if (savedStep) {
-      setCurrentStep(parseInt(savedStep, 10));
-    }
-    if (savedCompleted) {
-      setCompletedSteps(JSON.parse(savedCompleted));
-    }
+    // Keep OS preference for quick access feature
+    const savedOs = localStorage.getItem("omni-selected-os");
     if (savedOs) {
       setSelectedOs(savedOs);
     }
@@ -52,12 +51,8 @@ const Index = () => {
     setTimeout(() => setIsLoaded(true), 100);
   }, []);
 
-  // Save progress to localStorage
-  useEffect(() => {
-    localStorage.setItem("omni-current-step", currentStep.toString());
-    localStorage.setItem("omni-completed-steps", JSON.stringify(completedSteps));
-    localStorage.setItem("omni-show-landing", showLanding.toString());
-  }, [currentStep, completedSteps, showLanding]);
+  // No longer save progress - each refresh starts fresh
+  // Only save OS preference for quick access
 
   const handleStartFromLanding = () => {
     setShowLanding(false);
