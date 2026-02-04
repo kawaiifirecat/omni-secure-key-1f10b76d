@@ -68,11 +68,11 @@ export const AuthStep = ({ onComplete }: AuthStepProps) => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="w-full max-w-lg mx-auto px-4 sm:px-0"
+      className="w-full max-w-md mx-auto"
     >
-      <motion.div variants={itemVariants} className="text-center mb-8">
+      <motion.div variants={itemVariants} className="text-center mb-6 sm:mb-8">
         <motion.div 
-          className="inline-flex items-center justify-center h-16 w-16 rounded-2xl gradient-primary mb-4 shadow-elevated"
+          className="inline-flex items-center justify-center h-12 w-12 sm:h-16 sm:w-16 rounded-2xl gradient-primary mb-3 sm:mb-4 shadow-elevated"
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ 
@@ -86,11 +86,11 @@ export const AuthStep = ({ onComplete }: AuthStepProps) => {
             animate={{ rotate: [0, 10, -10, 0] }}
             transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
           >
-            <Key className="h-8 w-8 text-primary-foreground" />
+            <Key className="h-6 w-6 sm:h-8 sm:w-8 text-primary-foreground" />
           </motion.div>
         </motion.div>
         <motion.h1 
-          className="text-3xl font-bold text-foreground mb-2"
+          className="text-2xl sm:text-3xl font-bold text-foreground mb-2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -98,7 +98,7 @@ export const AuthStep = ({ onComplete }: AuthStepProps) => {
           Authentification
         </motion.h1>
         <motion.p 
-          className="text-muted-foreground"
+          className="text-sm sm:text-base text-muted-foreground px-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
@@ -133,7 +133,7 @@ export const AuthStep = ({ onComplete }: AuthStepProps) => {
                     setError("");
                   }}
                   disabled={isLoading || isValid}
-                  className={`h-14 text-center text-xl font-mono tracking-wider transition-all duration-300 ${
+                  className={`h-12 sm:h-14 text-center text-lg sm:text-xl font-mono tracking-wider transition-all duration-300 ${
                     error ? 'border-destructive focus-visible:ring-destructive animate-shake' : ''
                   } ${isValid ? 'border-success focus-visible:ring-success bg-success/5' : ''}`}
                   maxLength={12}

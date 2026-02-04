@@ -52,11 +52,11 @@ export const TermsStep = ({ onComplete }: TermsStepProps) => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="w-full max-w-4xl mx-auto px-4 sm:px-0"
+      className="w-full max-w-3xl mx-auto"
     >
-      <motion.div variants={itemVariants} className="text-center mb-8">
+      <motion.div variants={itemVariants} className="text-center mb-6 sm:mb-8">
         <motion.div 
-          className="inline-flex items-center justify-center h-16 w-16 rounded-2xl gradient-primary mb-4 shadow-elevated"
+          className="inline-flex items-center justify-center h-12 w-12 sm:h-16 sm:w-16 rounded-2xl gradient-primary mb-3 sm:mb-4 shadow-elevated"
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ 
@@ -66,10 +66,10 @@ export const TermsStep = ({ onComplete }: TermsStepProps) => {
             delay: 0.3 
           }}
         >
-          <FileText className="h-8 w-8 text-primary-foreground" />
+          <FileText className="h-6 w-6 sm:h-8 sm:w-8 text-primary-foreground" />
         </motion.div>
         <motion.h1 
-          className="text-3xl font-bold text-foreground mb-2"
+          className="text-2xl sm:text-3xl font-bold text-foreground mb-2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -77,7 +77,7 @@ export const TermsStep = ({ onComplete }: TermsStepProps) => {
           Bienvenue sur Omni
         </motion.h1>
         <motion.p 
-          className="text-muted-foreground max-w-lg mx-auto"
+          className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto px-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
@@ -101,7 +101,7 @@ export const TermsStep = ({ onComplete }: TermsStepProps) => {
           </CardHeader>
           <CardContent className="p-0">
             <ScrollArea 
-              className="h-[400px] p-6" 
+              className="h-[300px] sm:h-[400px] p-4 sm:p-6" 
               onScrollCapture={handleScroll}
             >
               <div className="space-y-6 text-sm text-foreground/90 leading-relaxed">

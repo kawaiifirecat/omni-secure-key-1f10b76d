@@ -219,22 +219,22 @@ export const ConfigurationStep = ({ selectedOs, onBackToMenu }: ConfigurationSte
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="w-full max-w-4xl mx-auto px-4 sm:px-0"
+      className="w-full max-w-3xl mx-auto"
     >
       <div className="text-center mb-6 sm:mb-8">
         <motion.div 
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="inline-flex items-center justify-center h-16 w-16 rounded-2xl gradient-primary mb-4 shadow-glow"
+          className="inline-flex items-center justify-center h-12 w-12 sm:h-16 sm:w-16 rounded-2xl gradient-primary mb-3 sm:mb-4 shadow-glow"
         >
-          <Settings className="h-8 w-8 text-primary-foreground" />
+          <Settings className="h-6 w-6 sm:h-8 sm:w-8 text-primary-foreground" />
         </motion.div>
         <motion.h1 
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="text-3xl font-bold text-foreground mb-2"
+          className="text-2xl sm:text-3xl font-bold text-foreground mb-2"
         >
           Comment utiliser Omni
         </motion.h1>
@@ -242,25 +242,25 @@ export const ConfigurationStep = ({ selectedOs, onBackToMenu }: ConfigurationSte
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.3 }}
-          className="text-muted-foreground max-w-lg mx-auto"
+          className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto px-4"
         >
           Guide d'installation pour {selectedOs === "windows" ? "Windows" : selectedOs === "macos" ? "macOS" : "Linux"}
         </motion.p>
       </div>
 
       <Tabs value={getTabValue()} className="w-full">
-        <TabsList className="grid w-full grid-cols-3 mb-6 h-14 bg-secondary/50">
-          <TabsTrigger value="windows" className="flex items-center gap-2 text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground" disabled={selectedOs !== "windows"}>
-            <Monitor className="h-4 w-4" />
-            Windows
+        <TabsList className="grid w-full grid-cols-3 mb-4 sm:mb-6 h-11 sm:h-14 bg-secondary/50">
+          <TabsTrigger value="windows" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground" disabled={selectedOs !== "windows"}>
+            <Monitor className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <span className="hidden xs:inline">Windows</span>
           </TabsTrigger>
-          <TabsTrigger value="macos" className="flex items-center gap-2 text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground" disabled={selectedOs !== "macos"}>
-            <Apple className="h-4 w-4" />
-            macOS
+          <TabsTrigger value="macos" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground" disabled={selectedOs !== "macos"}>
+            <Apple className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <span className="hidden xs:inline">macOS</span>
           </TabsTrigger>
-          <TabsTrigger value="linux" className="flex items-center gap-2 text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground" disabled={selectedOs !== "linux"}>
-            <Terminal className="h-4 w-4" />
-            Linux
+          <TabsTrigger value="linux" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground" disabled={selectedOs !== "linux"}>
+            <Terminal className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <span className="hidden xs:inline">Linux</span>
           </TabsTrigger>
         </TabsList>
 

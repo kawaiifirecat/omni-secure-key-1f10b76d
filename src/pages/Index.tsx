@@ -195,28 +195,30 @@ const Index = () => {
             <Header onLogoClick={handleBackToLanding} />
           </motion.div>
         
-          <main className="container mx-auto px-4 py-8">
-          {!directConfigAccess && (
-            <motion.div variants={itemVariants} className="max-w-4xl mx-auto mb-8">
-              <StepProgress
-                steps={STEPS}
-                currentStep={currentStep}
-                completedSteps={completedSteps}
-              />
-            </motion.div>
-          )}
+          <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            {!directConfigAccess && (
+              <motion.div variants={itemVariants} className="w-full flex justify-center mb-6 sm:mb-8">
+                <StepProgress
+                  steps={STEPS}
+                  currentStep={currentStep}
+                  completedSteps={completedSteps}
+                />
+              </motion.div>
+            )}
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentStep}
-              variants={stepTransitionVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="pb-12"
-            >
-              {renderCurrentStep()}
-            </motion.div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentStep}
+                variants={stepTransitionVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="w-full flex justify-center pb-8 sm:pb-12"
+              >
+                <div className="w-full">
+                  {renderCurrentStep()}
+                </div>
+              </motion.div>
             </AnimatePresence>
           </main>
 
@@ -224,16 +226,16 @@ const Index = () => {
             variants={itemVariants}
             className="border-t border-border/50 bg-card/30 backdrop-blur-md"
           >
-            <div className="container mx-auto px-4 py-6">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+              <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
+                <div className="flex items-center gap-2 text-center sm:text-left">
                   <span>© 2024 Omni.</span>
-                  <span className="hidden md:inline">Tous droits réservés.</span>
+                  <span className="hidden sm:inline">Tous droits réservés.</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="flex items-center gap-1.5">
                     <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
-                    Systèmes supportés : Windows, macOS, Linux
+                    <span className="hidden sm:inline">Systèmes supportés :</span> Windows, macOS, Linux
                   </span>
                 </div>
               </div>
