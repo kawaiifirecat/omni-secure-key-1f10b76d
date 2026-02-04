@@ -74,9 +74,9 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
       <AnimatedBackground intensity="high" />
 
       {/* Main Content */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 min-h-screen flex flex-col items-center justify-center">
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Hero Section */}
-        <motion.div variants={itemVariants} className="text-center mb-12 sm:mb-16 w-full max-w-4xl">
+        <motion.div variants={itemVariants} className="text-center mb-10 sm:mb-14 w-full max-w-3xl mx-auto">
           <motion.div
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8"
             whileHover={{ scale: 1.05 }}
@@ -96,13 +96,13 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
               ease: "easeInOut",
             }}
           >
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent animate-gradient">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent animate-gradient">
               OMNI
             </h1>
           </motion.div>
 
           <motion.p
-            className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-4"
+            className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-xl mx-auto mb-4"
             variants={itemVariants}
           >
             La solution universelle pour votre environnement
@@ -120,7 +120,7 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
         {/* Features */}
         <motion.div
           variants={itemVariants}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-16 w-full max-w-4xl"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-10 sm:mb-14 w-full max-w-3xl mx-auto"
         >
           {features.map((feature, index) => (
             <motion.div
@@ -135,9 +135,9 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
               <Card className={`relative overflow-hidden border-2 transition-all duration-500 ${
                 activeFeature === index ? "bg-primary/5 shadow-glow" : "bg-card/50 backdrop-blur-sm"
               }`}>
-                <CardContent className="p-6 text-center">
+                <CardContent className="p-4 sm:p-6 text-center flex flex-col items-center">
                   <motion.div
-                    className={`inline-flex items-center justify-center h-14 w-14 rounded-2xl mb-4 ${
+                    className={`flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 rounded-2xl mb-3 sm:mb-4 ${
                       activeFeature === index ? "gradient-primary" : "bg-primary/10"
                     }`}
                     animate={{
@@ -145,11 +145,11 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
                     }}
                     transition={{ duration: 0.5 }}
                   >
-                    <feature.icon className={`h-7 w-7 ${
+                    <feature.icon className={`h-6 w-6 sm:h-7 sm:w-7 ${
                       activeFeature === index ? "text-primary-foreground" : "text-primary"
                     }`} />
                   </motion.div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
+                  <h3 className="text-base sm:text-lg font-semibold text-foreground mb-1 sm:mb-2">{feature.title}</h3>
                   <p className="text-sm text-muted-foreground">{feature.description}</p>
                 </CardContent>
                 
@@ -167,7 +167,7 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
         </motion.div>
 
         {/* CTA Button */}
-        <motion.div variants={itemVariants} className="text-center mb-12 sm:mb-16 w-full flex justify-center">
+        <motion.div variants={itemVariants} className="mb-10 sm:mb-14 w-full flex justify-center">
           <motion.div
             animate={{
               boxShadow: [
@@ -186,7 +186,7 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
             <Button
               size="lg"
               onClick={onStart}
-              className="group relative overflow-hidden gradient-primary text-primary-foreground px-10 py-7 text-lg font-semibold rounded-xl shadow-elevated hover:shadow-glow transition-all duration-300"
+              className="group relative overflow-hidden gradient-primary text-primary-foreground px-6 sm:px-10 py-5 sm:py-7 text-base sm:text-lg font-semibold rounded-xl shadow-elevated hover:shadow-glow transition-all duration-300"
             >
               <motion.span
                 className="absolute inset-0 bg-white/20"
@@ -208,13 +208,13 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
         </motion.div>
 
         {/* Quick Access - OS Cards */}
-        <motion.div variants={itemVariants} className="w-full max-w-3xl">
-          <div className="text-center mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-semibold text-foreground mb-2">Accès rapide à la configuration</h2>
-            <p className="text-sm sm:text-base text-muted-foreground">Consultez directement les instructions pour votre système</p>
+        <motion.div variants={itemVariants} className="w-full max-w-2xl mx-auto">
+          <div className="text-center mb-5 sm:mb-6">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-foreground mb-2">Accès rapide à la configuration</h2>
+            <p className="text-xs sm:text-sm text-muted-foreground">Consultez directement les instructions pour votre système</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4">
             {[
               { id: "windows", icon: Monitor, label: "Windows", color: "from-blue-500/20 to-blue-600/10" },
               { id: "macos", icon: Apple, label: "macOS", color: "from-gray-400/20 to-gray-500/10" },
@@ -228,21 +228,21 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
               >
                 <motion.button
                   onClick={() => onViewConfig(os.id)}
-                  className={`w-full p-6 rounded-xl border border-border bg-gradient-to-br ${os.color} backdrop-blur-sm hover:border-primary/50 transition-all duration-300 group`}
+                  className={`w-full p-3 sm:p-5 rounded-xl border border-border bg-gradient-to-br ${os.color} backdrop-blur-sm hover:border-primary/50 transition-all duration-300 group`}
                   whileHover={{ scale: 1.03, y: -3 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <div className="flex flex-col items-center gap-3">
+                  <div className="flex flex-col items-center gap-2 sm:gap-3">
                     <motion.div
-                      className="h-12 w-12 rounded-xl bg-background/50 flex items-center justify-center group-hover:bg-primary/10 transition-colors"
+                      className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-background/50 flex items-center justify-center group-hover:bg-primary/10 transition-colors"
                       whileHover={{ rotate: [0, -10, 10, 0] }}
                       transition={{ duration: 0.4 }}
                     >
-                      <os.icon className="h-6 w-6 text-foreground" />
+                      <os.icon className="h-5 w-5 sm:h-6 sm:w-6 text-foreground" />
                     </motion.div>
-                    <span className="font-medium text-foreground">{os.label}</span>
+                    <span className="text-sm sm:text-base font-medium text-foreground">{os.label}</span>
                     <motion.span
-                      className="text-xs text-muted-foreground flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="text-[10px] sm:text-xs text-muted-foreground items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity hidden sm:flex"
                     >
                       Voir la configuration <ArrowRight className="h-3 w-3" />
                     </motion.span>
@@ -256,19 +256,19 @@ export const LandingPage = ({ onStart, onViewConfig }: LandingPageProps) => {
         {/* Footer Info */}
         <motion.div
           variants={itemVariants}
-          className="mt-12 sm:mt-16 text-center w-full"
+          className="mt-10 sm:mt-14 text-center w-full max-w-2xl mx-auto"
         >
-          <div className="inline-flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
-            <span className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-success" />
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs sm:text-sm text-muted-foreground">
+            <span className="flex items-center gap-1.5 sm:gap-2">
+              <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-success" />
               Licence temporaire
             </span>
-            <span className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-success" />
+            <span className="flex items-center gap-1.5 sm:gap-2">
+              <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-success" />
               Support Telegram
             </span>
-            <span className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-success" />
+            <span className="flex items-center gap-1.5 sm:gap-2">
+              <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-success" />
               Multi-plateforme
             </span>
           </div>

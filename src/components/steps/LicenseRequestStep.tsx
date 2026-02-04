@@ -168,31 +168,31 @@ export const LicenseRequestStep = ({ onComplete }: LicenseRequestStepProps) => {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, type: "spring" }}
-        className="w-full max-w-lg mx-auto text-center px-4 sm:px-0"
+        className="w-full max-w-md mx-auto text-center"
       >
         <motion.div 
-          className="inline-flex items-center justify-center h-20 w-20 rounded-full bg-success/10 mb-6"
+          className="inline-flex items-center justify-center h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-success/10 mb-4 sm:mb-6"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
         >
-          <CheckCircle2 className="h-10 w-10 text-success" />
+          <CheckCircle2 className="h-8 w-8 sm:h-10 sm:w-10 text-success" />
         </motion.div>
         
-        <h1 className="text-3xl font-bold text-foreground mb-3">Demande envoyée !</h1>
-        <p className="text-muted-foreground mb-8 max-w-md mx-auto">
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2 sm:mb-3">Demande envoyée !</h1>
+        <p className="text-sm sm:text-base text-muted-foreground mb-6 sm:mb-8 max-w-sm mx-auto px-4">
           Votre demande de licence a été transmise à l'administrateur pour validation.
         </p>
 
-        <Card className="shadow-card border-border mb-6 overflow-hidden">
-          <CardContent className="p-6">
-            <div className="flex gap-4">
-              <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <MessageSquare className="h-6 w-6 text-primary" />
+        <Card className="shadow-card border-border mb-4 sm:mb-6 overflow-hidden">
+          <CardContent className="p-4 sm:p-6">
+            <div className="flex gap-3 sm:gap-4">
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
               </div>
               <div className="text-left">
-                <h3 className="font-semibold text-foreground mb-1">Réponse via Telegram</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="font-semibold text-foreground mb-1 text-sm sm:text-base">Réponse via Telegram</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   La réponse à votre demande sera envoyée sur Telegram par le bot Omni.
                 </p>
               </div>
@@ -202,7 +202,7 @@ export const LicenseRequestStep = ({ onComplete }: LicenseRequestStepProps) => {
 
         <Button
           onClick={handleContinue}
-          className="w-full h-12 text-base font-medium gradient-primary text-primary-foreground hover:opacity-90 transition-all"
+          className="w-full h-11 sm:h-12 text-sm sm:text-base font-medium gradient-primary text-primary-foreground hover:opacity-90 transition-all"
         >
           <span className="flex items-center justify-center gap-2">
             <Sparkles className="h-4 w-4" />
@@ -225,14 +225,14 @@ export const LicenseRequestStep = ({ onComplete }: LicenseRequestStepProps) => {
         initial="hidden"
         animate="visible"
         variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
-        className="w-full max-w-2xl mx-auto px-4 sm:px-0"
+        className="w-full max-w-xl mx-auto"
       >
-        <motion.div variants={itemVariants} className="text-center mb-8">
-          <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl gradient-primary mb-4 shadow-elevated">
-            <FileKey className="h-8 w-8 text-primary-foreground" />
+        <motion.div variants={itemVariants} className="text-center mb-6 sm:mb-8">
+          <div className="inline-flex items-center justify-center h-12 w-12 sm:h-16 sm:w-16 rounded-2xl gradient-primary mb-3 sm:mb-4 shadow-elevated">
+            <FileKey className="h-6 w-6 sm:h-8 sm:w-8 text-primary-foreground" />
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Demande de licence</h1>
-          <p className="text-muted-foreground max-w-md mx-auto">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Demande de licence</h1>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-sm mx-auto px-4">
             Remplissez le formulaire ci-dessous pour demander votre licence Omni
           </p>
         </motion.div>
